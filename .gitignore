@@ -18,3 +18,5 @@ Software.WebApi/Software.Model/obj
 /Software.WebApi/Software.Repository/bin
 /Software.WebApi/Software.Services/bin
 /Software.WebApi/Software.Services/obj
+/Software.Common/obj
+/Software.Common/bin
