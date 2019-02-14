@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Autofac.Extras.DynamicProxy;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +20,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NLog.Extensions.Logging;
+using Senparc.CO2NET;
+using Senparc.CO2NET.RegisterServices;
+using Senparc.Weixin;
+using Senparc.Weixin.Entities;
+using Senparc.Weixin.RegisterServices;
+using Senparc.Weixin.TenPay;
+using Senparc.Weixin.WxOpen;
+using Software.WebApi.AOP;
 using Software.WebApi.AuthHelper;
+using Software.WebApi.Filter;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Software.WebApi
@@ -31,9 +46,26 @@ namespace Software.WebApi
         private const string ApiName = "Software";
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ICaching, MemoryCaching>();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            #region 小程序
+            /*
+             * CO2NET 是从 Senparc.Weixin 分离的底层公共基础模块，经过了长达 6 年的迭代优化，稳定可靠。
+             * 关于 CO2NET 在所有项目中的通用设置可参考 CO2NET 的 Sample：
+             * https://github.com/Senparc/Senparc.CO2NET/blob/master/Sample/Senparc.CO2NET.Sample.netcore/Startup.cs
+             */
+            services.AddSenparcGlobalServices(Configuration)//Senparc.CO2NET 全局注册
+                    .AddSenparcWeixinServices(Configuration);//Senparc.Weixin 注册
+            #endregion
+
+            #region Automapper
+            services.AddAutoMapper(typeof(Startup));
+            #endregion
 
             #region Swagger
             var basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;
@@ -127,10 +159,42 @@ namespace Software.WebApi
                    o.TokenValidationParameters = tokenValidationParameters;
                });
             #endregion
+
+            #region AutoFac
+            //实例化 AutoFac  容器   
+            var builder = new ContainerBuilder();
+            //注册要通过反射创建的组件
+             builder.RegisterType<CacheAOP>();//可以直接替换其他拦截器
+         
+            //获取项目绝对路径，请注意，这个是实现类的dll文件，不是接口 IService.dll ，注入容器当然是Activatore
+            var servicesDllFile = Path.Combine(basePath, "Software.Services.dll");
+            var assemblysServices = Assembly.LoadFile(servicesDllFile);//直接采用加载文件的方法
+            builder.RegisterAssemblyTypes(assemblysServices).AsImplementedInterfaces();//指定已扫描程序集中的类型注册为提供所有其实现的接口。
+
+            builder.RegisterAssemblyTypes(assemblysServices)
+                      .AsImplementedInterfaces()
+                      .InstancePerLifetimeScope()
+                      .EnableInterfaceInterceptors()//引用Autofac.Extras.DynamicProxy;
+                                                    // 如果你想注入两个，就这么写  InterceptedBy(typeof(BlogCacheAOP), typeof(BlogLogAOP));
+                      .InterceptedBy(typeof(CacheAOP));//允许将拦截器服务的列表分配给注册。
+
+            var repositoryDllFile = Path.Combine(basePath, "Software.Repository.dll");
+            var assemblysRepository = Assembly.LoadFile(repositoryDllFile);
+            builder.RegisterAssemblyTypes(assemblysRepository).AsImplementedInterfaces();
+
+            //将services填充到Autofac容器生成器中
+            builder.Populate(services);
+
+            //使用已进行的组件登记创建新容器
+            var ApplicationContainer = builder.Build();
+
+            #endregion
+
+            return new AutofacServiceProvider(ApplicationContainer);//第三方IOC接管 core内置DI容器
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,ILoggerFactory loggerFactory, IOptions<SenparcSetting> senparcSetting, IOptions<SenparcWeixinSetting> senparcWeixinSetting)
         {
             if (env.IsDevelopment())
             {
@@ -141,8 +205,27 @@ namespace Software.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             // 使用静态文件
             app.UseStaticFiles();
+
+            NLog.LogManager.LoadConfiguration("nlog.config");
+            loggerFactory.AddNLog();//添加NLog
+
+            #region 全局错误拦截器配置
+            app.UseErrorHandling();
+            #endregion
+
+            #region 微信
+            // 启动 CO2NET 全局注册，必须！
+            IRegisterService register = RegisterService.Start(env, senparcSetting.Value)
+                                                        //关于 UseSenparcGlobal() 的更多用法见 CO2NET Demo：https://github.com/Senparc/Senparc.CO2NET/blob/master/Sample/Senparc.CO2NET.Sample.netcore/Startup.cs
+                                                        .UseSenparcGlobal();
+            register.UseSenparcWeixin(senparcWeixinSetting.Value, senparcSetting.Value)
+                  .RegisterWxOpenAccount(senparcWeixinSetting.Value, "小程序")// DPBMARK_END
+                                                                           //注册最新微信支付版本（V3）（可注册多个）
+                  .RegisterTenpayV3(senparcWeixinSetting.Value, "小程序支付");
+            #endregion
 
             #region Swagger
             app.UseSwagger();
@@ -163,6 +246,8 @@ namespace Software.WebApi
             #endregion
 
             app.UseHttpsRedirection();
+            // 使用cookie
+            app.UseCookiePolicy();
             app.UseMvc();
         }
     }

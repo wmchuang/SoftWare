@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Software.Common\Software.Common.csproj" />
     <ProjectReference Include="..\Software.IRepository\Software.IRepository.csproj" />
     <ProjectReference Include="..\Software.IServices\Software.IServices.csproj" />
   </ItemGroup>

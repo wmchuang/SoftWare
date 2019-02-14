@@ -4,6 +4,21 @@
         <name>Software.WebApi</name>
     </assembly>
     <members>
+        <member name="T:Software.WebApi.AOP.CacheAOP">
+            <summary>
+            面向切面的缓存使用
+            </summary>
+        </member>
+        <member name="T:Software.WebApi.AOP.ICaching">
+            <summary>
+            简单的缓存接口，只有查询和添加，以后会进行扩展
+            </summary>
+        </member>
+        <member name="T:Software.WebApi.AOP.MemoryCaching">
+            <summary>
+            实例化缓存接口ICaching
+            </summary>
+        </member>
         <member name="T:Software.WebApi.AuthHelper.JwtToken">
             <summary>
             JWTToken生成类
@@ -91,6 +106,11 @@
             <param name="signingCredentials">签名验证实体</param>
             <param name="expiration">过期时间</param>
         </member>
+        <member name="M:Software.WebApi.AutoMapper.CustomProfile.#ctor">
+            <summary>
+            配置构造函数，用来创建关系映射
+            </summary>
+        </member>
         <member name="T:Software.WebApi.Controllers.ApiBaseController">
             <summary>
             接口基类
@@ -101,17 +121,100 @@
             登陆
             </summary>
         </member>
-        <member name="M:Software.WebApi.Controllers.LoginController.#ctor(Software.WebApi.AuthHelper.PermissionRequirement,Microsoft.Extensions.Logging.ILogger{Software.WebApi.Controllers.LoginController})">
+        <member name="M:Software.WebApi.Controllers.LoginController.#ctor(Software.WebApi.AuthHelper.PermissionRequirement,Software.IServices.IMembersServices,Microsoft.Extensions.Logging.ILogger{Software.WebApi.Controllers.LoginController})">
             <summary>
             构造函数注入
             </summary>
             <param name="requirement"></param>
+            <param name="membersServices"></param>
             <param name="logger"></param>
         </member>
         <member name="M:Software.WebApi.Controllers.LoginController.Login">
             <summary>
             登陆
             </summary>
+        </member>
+        <member name="M:Software.WebApi.Controllers.LoginController.Post(Software.Model.ParmModels.LoginModel)">
+            <summary>
+            小程序登陆
+            </summary>
+            <param name="loginModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Software.WebApi.Controllers.MemberController">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="M:Software.WebApi.Controllers.MemberController.#ctor(Microsoft.AspNetCore.Hosting.IHostingEnvironment,Software.IServices.IMembersServices,AutoMapper.IMapper)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="hostingEnvironment"></param>
+            <param name="membersServices"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:Software.WebApi.Controllers.MemberController.Get">
+            <summary>
+            获取用户基本信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Software.WebApi.Controllers.MemberController.List">
+            <summary>
+            获取用户基本信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Software.WebApi.Controllers.MemberController.Exception">
+            <summary>
+            NLog
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Software.WebApi.Extensions.ClaimsPrincipalExtensions">
+            <summary>
+            扩展方法获取userId
+            </summary>
+        </member>
+        <member name="M:Software.WebApi.Extensions.ClaimsPrincipalExtensions.GetUserId(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            获取用户userId
+            </summary>
+            <param name="principal"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Software.WebApi.Filter.ErrorHandlingMiddleware">
+            <summary>
+            全局异常拦截器
+            </summary>
+        </member>
+        <member name="M:Software.WebApi.Filter.ErrorHandlingMiddleware.FormatMessage(System.String,System.Exception,Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            自定义返回格式
+            </summary>
+            <param name="throwMsg"></param>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Software.WebApi.Filter.ErrorHandlingMiddleware.Object2XmlString(System.Object)">
+            <summary>
+            对象转为Xml
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Software.WebApi.Filter.ErrorHandlingExtensions">
+            <summary>
+            自定义拦截器
+            </summary>
+        </member>
+        <member name="M:Software.WebApi.Filter.ErrorHandlingExtensions.UseErrorHandling(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            错误拦截
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>
