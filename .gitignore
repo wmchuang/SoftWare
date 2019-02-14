@@ -3,11 +3,8 @@
 /Software.WebApi/.vs
 /Software.WebApi/Software.IRepository/obj
 /Software.WebApi/Software.IRepository/bin
-/Software.WebApi/Software.IServices/*
-/Software.WebApi/Software.Model/obj
+Software.WebApi/Software.Model/obj
 /Software.WebApi/Software.Model/bin
-/Software.WebApi/Software.Repository/*
-/Software.WebApi/Software.Services/*
 /Software.FrameWork/obj
 /Software.FrameWork/bin
 /Software.FrameWork/Entity/work
@@ -15,3 +12,9 @@
 /Software.FrameWork/IServices/work
 /Software.FrameWork/Repository/work
 /Software.FrameWork/Services/work
+/Software.WebApi/Software.IServices/obj
+/Software.WebApi/Software.IServices/bin
+/Software.WebApi/Software.Repository/obj
+/Software.WebApi/Software.Repository/bin
+/Software.WebApi/Software.Services/bin
+/Software.WebApi/Software.Services/obj
