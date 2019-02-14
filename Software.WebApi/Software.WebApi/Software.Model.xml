@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Software.Model</name>
+    </assembly>
+    <members>
+        <member name="T:Software.Model.Models.Members">
+            <summary>
+            Members
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.Id">
+            <summary>
+               Id
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.OpenId">
+            <summary>
+            微信中用户唯一标识
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.Session_key">
+            <summary>
+            会话密钥
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.NickName">
+            <summary>
+            昵称
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.HeadImg">
+            <summary>
+            头像
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.Sex">
+            <summary>
+            性别；0：男 1:女
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.Status">
+            <summary>
+            状态（2：正常）
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.Province">
+            <summary>
+               Province
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.City">
+            <summary>
+               City
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Members.CreateTime">
+            <summary>
+            创建时间
+            </summary>	
+        </member>
+    </members>
+</doc>

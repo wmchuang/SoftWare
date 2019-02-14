@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Software.WebApi.AuthHelper;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Software.WebApi
@@ -48,20 +49,18 @@ namespace Software.WebApi
                 });
 
 
-                //var xmlPath = Path.Combine(basePath, "Blog.Core.xml");//这个就是刚刚配置的xml文件名
-                //c.IncludeXmlComments(xmlPath, true);//默认的第二个参数是false，这个是controller的注释，记得修改
+                var xmlPath = Path.Combine(basePath, "Software.WebApi.xml");//这个就是刚刚配置的xml文件名
+                c.IncludeXmlComments(xmlPath, true);//默认的第二个参数是false，这个是controller的注释，记得修改
 
                 //var xmlModelPath = Path.Combine(basePath, "Blog.Core.Model.xml");//这个就是Model层的xml文件名
                 //c.IncludeXmlComments(xmlModelPath);
 
                 #region Token绑定到ConfigureServices
-
                 // 发行人
                 var IssuerName = (Configuration.GetSection("Audience"))["Issuer"];
                 var security = new Dictionary<string, IEnumerable<string>> { { IssuerName, new string[] { } }, };
                 c.AddSecurityRequirement(security);
 
-                //方案名称“Blog.Core”可自定义，上下一致即可
                 c.AddSecurityDefinition(IssuerName, new ApiKeyScheme
                 {
                     Description = "JWT授权(数据将在请求头中进行传输) 直接在下框中输入Bearer {token}（注意两者之间是一个空格）\"",
@@ -95,19 +94,29 @@ namespace Software.WebApi
 
             };
 
-            //var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-            //var permission = new List<Permission>();
-            //// 角色与接口的权限要求参数
-            //var permissionRequirement = new PermissionRequirement(
-            //    "/api/denied",// 拒绝授权的跳转地址（目前无用）
-            //    permission,
-            //    ClaimTypes.Role,//基于角色的授权
-            //    audienceConfig["Issuer"],//发行人
-            //    audienceConfig["Audience"],//听众
-            //    signingCredentials,//签名凭据
-            //    expiration: TimeSpan.FromDays(7)//接口的过期时间
-            //    );
-            //services.AddSingleton(permissionRequirement);
+            var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+            var permission = new List<Permission>();
+            // 角色与接口的权限要求参数
+            var permissionRequirement = new PermissionRequirement(
+                "/api/denied",// 拒绝授权的跳转地址（目前无用）
+                permission,
+                ClaimTypes.Role,//基于角色的授权
+                audienceConfig["Issuer"],//发行人
+                audienceConfig["Audience"],//听众
+                signingCredentials,//签名凭据
+                expiration: TimeSpan.FromDays(7)//接口的过期时间
+                );
+
+            //注入参数，供控制器调用
+            /*
+            Singleton
+            单例模式，服务在第一次请求时被创建，其后的每次请求都沿用这个已创建的服务。我们不用再自己写单例了。
+            Scoped
+               作用域模式，服务在每次请求时被创建，整个请求过程中都贯穿使用这个创建的服务。比如Web页面的一次请求。
+            Transient
+            瞬态模式，服务在每次请求时被创建，它最好被用于轻量级无状态服务。
+            */
+            services.AddSingleton(permissionRequirement);
 
             services.AddAuthentication(x =>
                {

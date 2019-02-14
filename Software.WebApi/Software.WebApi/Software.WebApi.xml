@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Software.WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:Software.WebApi.AuthHelper.JwtToken">
+            <summary>
+            JWTToken生成类
+            </summary>
+        </member>
+        <member name="M:Software.WebApi.AuthHelper.JwtToken.BuildJwtToken(System.Security.Claims.Claim[],Software.WebApi.AuthHelper.PermissionRequirement)">
+            <summary>
+            获取基于JWT的Token
+            </summary>
+            <param name="claims">需要在登陆的时候配置</param>
+            <param name="permissionRequirement">在startup中定义的参数</param>
+            <returns></returns>
+        </member>
+        <member name="T:Software.WebApi.AuthHelper.Permission">
+            <summary>
+            用户或角色或其他凭据实体
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.Permission.Role">
+            <summary>
+            用户或角色或其他凭据名称
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.Permission.Url">
+            <summary>
+            请求Url
+            </summary>
+        </member>
+        <member name="T:Software.WebApi.AuthHelper.PermissionRequirement">
+            <summary>
+            必要参数类，
+            继承 IAuthorizationRequirement，用于设计自定义权限处理器PermissionHandler
+            因为AuthorizationHandler 中的泛型参数 TRequirement 必须继承 IAuthorizationRequirement
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.PermissionRequirement.Permissions">
+            <summary>
+            用户权限集合
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.PermissionRequirement.DeniedAction">
+            <summary>
+            无权限action
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.PermissionRequirement.ClaimType">
+            <summary>
+            认证授权类型
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.PermissionRequirement.LoginPath">
+            <summary>
+            请求路径
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.PermissionRequirement.Issuer">
+            <summary>
+            发行人
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.PermissionRequirement.Audience">
+            <summary>
+            订阅人
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.PermissionRequirement.Expiration">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:Software.WebApi.AuthHelper.PermissionRequirement.SigningCredentials">
+            <summary>
+            签名验证
+            </summary>
+        </member>
+        <member name="M:Software.WebApi.AuthHelper.PermissionRequirement.#ctor(System.String,System.Collections.Generic.List{Software.WebApi.AuthHelper.Permission},System.String,System.String,System.String,Microsoft.IdentityModel.Tokens.SigningCredentials,System.TimeSpan)">
+            <summary>
+            构造
+            </summary>
+            <param name="deniedAction">拒约请求的url</param>
+            <param name="permissions">权限集合</param>
+            <param name="claimType">声明类型</param>
+            <param name="issuer">发行人</param>
+            <param name="audience">订阅人</param>
+            <param name="signingCredentials">签名验证实体</param>
+            <param name="expiration">过期时间</param>
+        </member>
+        <member name="T:Software.WebApi.Controllers.ApiBaseController">
+            <summary>
+            接口基类
+            </summary>
+        </member>
+        <member name="T:Software.WebApi.Controllers.LoginController">
+            <summary>
+            登陆
+            </summary>
+        </member>
+        <member name="M:Software.WebApi.Controllers.LoginController.#ctor(Software.WebApi.AuthHelper.PermissionRequirement,Microsoft.Extensions.Logging.ILogger{Software.WebApi.Controllers.LoginController})">
+            <summary>
+            构造函数注入
+            </summary>
+            <param name="requirement"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Software.WebApi.Controllers.LoginController.Login">
+            <summary>
+            登陆
+            </summary>
+        </member>
+    </members>
+</doc>
