@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Include="..\..\Software.WebApi\Software.Model\Models\Members.cs" Link="Models\Members.cs" />
+    <Compile Include="..\..\Software.WebApi\Software.Model\Models\Notice.cs" Link="Models\Notice.cs" />
   </ItemGroup>
 
 </Project>

@@ -17,9 +17,9 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
         id: "listTable",
         cols: [[
             //{ type: "checkbox", fixed: "left", width: 50 },
-            { field: "Id", title: 'Id', width: 80, align: "center" },
-            { field: 'Title', title: '标题', minWidth: 180, align: "center" },
-            { field: 'CreateTime', title: '创建时间', align: 'center' },
+            { field: "id", title: 'Id', width: 80, align: "center" },
+            { field: 'title', title: '标题', minWidth: 180, align: "center" },
+            { field: 'createTime', title: '创建时间', align: 'center' },
             { title: '操作', minWidth: 80, templet: '#listBar', fixed: "right", align: "center" }
         ]]
     });
@@ -52,10 +52,10 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
                 var body = layui.layer.getChildFrame('body', index);
                 console.info(edit);
                 if (edit) {
-                    body.find("#Id").val(edit.Id);
-                    body.find(".title").val(edit.Title);
+                    body.find("#Id").val(edit.id);
+                    body.find(".title").val(edit.title);
                     //layedit.setContent(editIndex, edit.Content);
-                    body.find("#news_content").val(edit.Content);
+                    body.find("#news_content").val(edit.content);
                     form.render();
                 }
             }
@@ -80,7 +80,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             add(data);
         } else if (layEvent === 'del') { //删除
             layer.confirm('确定删除此通知？', { icon: 3, title: '提示信息' }, function (index) {
-                del(data.Id,index);
+                del(data.id,index);
             });
         }
     });
@@ -92,7 +92,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             data: { Id: Id },
             dataType: "json",
             success: function (data) {//res为相应体,function为回调函数
-                layer.msg(data.ResultMsg, {
+                layer.msg(data.message, {
                     time: 1000 
                 }, function () {
                     tableIns.reload();
