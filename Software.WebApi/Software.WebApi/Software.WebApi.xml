@@ -166,9 +166,15 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Software.WebApi.Controllers.MemberController.Exception">
+        <member name="M:Software.WebApi.Controllers.MemberController.PostException(Software.Model.ParmModels.LoginModel)">
             <summary>
-            NLog
+            Post异常
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Software.WebApi.Controllers.MemberController.GetException(System.String,System.String)">
+            <summary>
+            Get异常
             </summary>
             <returns></returns>
         </member>

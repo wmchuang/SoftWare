@@ -13,6 +13,10 @@ using Microsoft.Extensions.Logging;
 using NLog;
 using LogLevel = NLog.LogLevel;
 using Software.Model.Models;
+using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Threading;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Software.WebApi.Filter
 {
@@ -63,8 +67,8 @@ namespace Software.WebApi.Filter
             //状态码
             if (exception is UnauthorizedAccessException)
                 response.StatusCode = (int)HttpStatusCode.Unauthorized;
-            else if (exception is Exception)
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            //else if (exception is Exception)
+            //    response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             response.ContentType = context.Request.Headers["Accept"];
 
@@ -89,18 +93,35 @@ namespace Software.WebApi.Filter
         public static string FormatMessage(string throwMsg, Exception ex, HttpContext context)
         {
             var request = context.Request;
-
             LogEventInfo ei = new LogEventInfo(LogLevel.Error, "LoggerName", "Message");
             ei.Level = LogLevel.Fatal;
             ei.Properties["Path"] = request.Path;
-            ei.Properties["Query"] = JsonConvert.SerializeObject(request.Query);
+
+            var param = string.Empty;
+            if (request.Method.ToLower() == "get")
+            {
+                param = JsonConvert.SerializeObject(request.Query);
+            }
+            else if (request.Method.ToLower() == "post")
+            {
+                if (context.Request.ContentLength != 0)
+                {
+                    using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8))
+                    {
+                        request.Body.Position = 0;//重新设置数据流的起始位置
+                        param = reader.ReadToEnd();
+                    }
+                }
+            }
+            ei.Properties["Query"] = param;
             ei.Properties["Message"] = ex.Message.ToString();
+            ei.Message = ex.Message.ToString();
             Logger.Log(ei);
 
             return $@"【异常信息】：{ex.Message}
                       【异常类型】：{ ex.GetType().Name}
                       【接口地址】：{request.Path}
-                      【接口参数】：{JsonConvert.SerializeObject(request.Query)}
+                      【接口参数】：{param}
                       【堆栈调用】：{ex.StackTrace}";
 
         }

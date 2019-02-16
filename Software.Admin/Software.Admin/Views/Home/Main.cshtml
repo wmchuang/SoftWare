@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewData["Title"] = "管理中心";
+}
+
+<blockquote class="layui-elem-quote layui-bg-green">
+    <div id="nowTime"></div>
+</blockquote>
+<div class="layui-row layui-col-space10 panel_box">
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-orange">
+                <i class="layui-anim seraph icon-icon10" data-icon="icon-icon10"></i>
+            </div>
+            <div class="panel_word userAll">
+                <span></span>
+                <em>用户总数</em>
+                <cite class="layui-hide">用户中心</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-black">
+                <i class="layui-anim seraph icon-text"></i>
+            </div>
+            <div class="panel_word needOrder">
+                <span></span>
+                <em>买方订单</em>
+                <cite class="layui-hide">买方订单</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-blue">
+                <i class="layui-anim seraph icon-text"></i>
+            </div>
+            <div class="panel_word beltOrder">
+                <span></span>
+                <em>带方订单</em>
+                <cite class="layui-hide">带方订单</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-green">
+                <i class="layui-anim seraph icon-good"></i>
+            </div>
+            <div class="panel_word order">
+                <span></span>
+                <em>匹配成功订单</em>
+                <cite class="layui-hide">匹配成功订单</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-cyan">
+                <i class="layui-anim seraph icon-good"></i>
+            </div>
+            <div class="panel_word successOrder">
+                <span></span>
+                <em>支付成功订单</em>
+                <cite class="layui-hide">支付成功订单</cite>
+            </div>
+        </a>
+    </div>
+    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+        <a href="javascript:;">
+            <div class="panel_icon layui-bg-red">
+                <i class="layui-anim seraph icon-zhiding"></i>
+            </div>
+            <div class="panel_word cutAmount">
+                <span></span>
+                <em>系统获得提成</em>
+                <cite class="layui-hide">系统获得提成</cite>
+            </div>
+        </a>
+    </div>
+</div>
+<blockquote class="layui-elem-quote">
+    <div id="first" style="width:100%;height:500px"></div>
+</blockquote>
+
+@section Scripts{
+    <script type="text/javascript" src="~/layui/layui.js"></script>
+    <script type="text/javascript" src="~/js/echarts.common.min.js"></script>
+    <script type="text/javascript" src="~/js/main.js?_=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
+    <script type="text/javascript" src="~/js/home/homechart.js"></script>
+}

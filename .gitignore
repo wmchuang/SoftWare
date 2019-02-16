@@ -20,3 +20,17 @@ Software.WebApi/Software.Model/obj
 /Software.WebApi/Software.Services/obj
 /Software.Common/obj
 /Software.Common/bin
+/Software.Admin/Software.IRepository/bin
+/Software.Admin/Software.IRepository/obj
+/Software.Admin/Software.IServices/obj
+/Software.Admin/Software.IServices/bin
+/Software.Admin/Software.Model/bin
+/Software.Admin/Software.Model/obj
+/Software.Admin/Software.Repository/obj
+/Software.Admin/Software.Repository/bin
+/Software.Admin/Software.Services/bin
+/Software.Admin/Software.Services/obj
+/Software.Admin/.vs
+/Software.Admin/Software.Admin/obj
+/Software.Admin/Software.Admin/bin
+/Software.WebApi/Software.WebApi/App_Data/SenparcTraceLog

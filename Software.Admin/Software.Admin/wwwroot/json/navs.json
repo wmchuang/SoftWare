@@ -1,0 +1,32 @@
+{
+  "systemSettings": [
+    {
+      "title": "用户管理",
+      "icon": "&#xe612;",
+      "href": "/Member/Index",
+      "spread": false
+    },
+    {
+      "title": "系统通知",
+      "icon": "&#xe611;",
+      "href": "/Notice/Index",
+      "spread": false
+    },
+    {
+      "title": "错误日志",
+      "icon": "&#xe69c;",
+      "href": "/Nlog/Index",
+      "spread": false
+    }
+  ],
+  "contentManagement": [
+    {
+      "title": "错误日志",
+      "icon": "&#xe69c;",
+      "href": "/Nlog/Index",
+      "spread": false
+    }
+  ]
+}
+
+

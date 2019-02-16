@@ -1,12 +1,12 @@
 微信例子地址：
 	https://github.com/JeffreySu/WeiXinMPSDK/tree/master/Samples/Senparc.Weixin.MP.Sample.vs2017/Senparc.Weixin.MP.CoreSample
 
-NLog建表Sql：
-CREATE TABLE [dbo].[NLogInfo](
-	[LogId] [int] IDENTITY(1,1) NOT NULL,
-	[Date] [datetime] NOT NULL,
-	[Level] [nvarchar](50) NULL,
-	[Url] [nvarchar](500) NULL,
-	[Parameter] text NULL,
-	[Message] text NULL,
-) ON [PRIMARY]
+
+项目打包和卸载：
+dotnet new -i H:\MyProject\Softwaretemple\Software.WebApiTemple
+dotnet new -u  H:\MyProject\Softwaretemple\Software.WebApiTemple
+
+dotnet new -i Chuang.Sowftware.Template  --Nuget上的包
+dotnet new -u Chuang.Sowftware.Template  --Nuget上的包
+dotnet new -l
+dotnet new softwaretpl -n xxx

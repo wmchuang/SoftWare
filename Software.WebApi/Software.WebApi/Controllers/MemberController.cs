@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Software.Common;
 using Software.IServices;
 using Software.Model.Models;
+using Software.Model.ParmModels;
 using Software.Model.ViewModels;
 using Software.WebApi.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -66,11 +68,27 @@ namespace Software.WebApi.Controllers
         }
 
         /// <summary>
-        /// NLog
+        /// Post异常
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public Result<object> PostException([FromBody] LoginModel loginModel)
+        {
+            Result<object> result = new Result<object>();
+            int j = 0;
+            var s = loginModel.city;
+            int i = 1 / j;
+            return result;
+        }
+
+        /// <summary>
+        /// Get异常
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<Result<object>> Exception()
+        [AllowAnonymous]
+        public Result<object> GetException(string id, string name)
         {
             Result<object> result = new Result<object>();
             int j = 0;
