@@ -9,7 +9,10 @@ namespace Software.Repository
 	/// </summary>	
 	public class ManageRepository : BaseRepository<Manage>, IManageRepository
     {
-
+        public async Task<TEntity> QueryByID(object objId)
+        {
+            return await Task.Run(() => db.Queryable<TEntity>().InSingle(objId));
+        }
     }
 }
 	

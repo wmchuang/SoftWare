@@ -95,5 +95,18 @@ namespace Software.WebApi.Controllers
             int i = 1 / j;
             return result;
         }
+
+        /// <summary>
+        /// Post不封装类
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public Result<object> PostTest([FromBody]string name,string name1)
+        {
+            Result<object> result = new Result<object>();
+            result.message = name;
+            return result;
+        }
     }
 }

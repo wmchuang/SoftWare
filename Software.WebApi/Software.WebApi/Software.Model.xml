@@ -59,6 +59,36 @@
             创建时间
             </summary>	
         </member>
+        <member name="T:Software.Model.Models.Notice">
+            <summary>
+            Notice
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Notice.Id">
+            <summary>
+            主键
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Notice.Title">
+            <summary>
+            标题
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Notice.Content">
+            <summary>
+            内容
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Notice.Status">
+            <summary>
+            状态
+            </summary>	
+        </member>
+        <member name="P:Software.Model.Models.Notice.CreateTime">
+            <summary>
+            创建时间
+            </summary>	
+        </member>
         <member name="T:Software.Model.Models.IResult">
             <summary>
             服务器请求结果

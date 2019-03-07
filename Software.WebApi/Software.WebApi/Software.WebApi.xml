@@ -178,6 +178,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Software.WebApi.Controllers.MemberController.PostTest(System.String,System.String)">
+            <summary>
+            Post不封装类
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Software.WebApi.Extensions.ClaimsPrincipalExtensions">
             <summary>
             扩展方法获取userId
